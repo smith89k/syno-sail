@@ -1,0 +1,30 @@
+{
+    "name": "smith89k/synodocker",
+    "description": "Docker configuration package for Laravel projects on Synology or other Docker hosts.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "smith89k"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0",
+        "illuminate/console": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Smith89k\\Synodocker\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Smith89k\\Synodocker\\SynodockerServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
