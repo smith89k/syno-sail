@@ -11,7 +11,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'syno-sail:install';
+    protected $signature = 'syno-sail:install {--force : Overwrite any existing files}';
 
     /**
      * The console command description.
@@ -27,7 +27,7 @@ class InstallCommand extends Command
     {
         $this->info('Installing SynoSail Configuration...');
 
-        $this->callSilent('vendor:publish', ['--tag' => 'syno-sail-stubs', '--force' => true]);
+        $this->callSilent('vendor:publish', ['--tag' => 'syno-sail-stubs', '--force' => $this->option('force')]);
 
         $this->info('SynoSail configuration installed successfully.');
         $this->comment('Please check the docker-compose.yml file and configure it according to your needs.');
