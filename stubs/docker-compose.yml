@@ -1,7 +1,7 @@
 services:
   init:
     image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
-    container_name: ${APP_NAME:-laravel}-init
+    container_name: ${CONTAINER_NAME:-laravel}-init
     entrypoint: ["sh", "-c",
                  "mkdir -p /mnt/stack/public &&
                  mkdir -p /mnt/stack/storage &&
@@ -18,7 +18,7 @@ services:
 
   db:
     image: mariadb:11.4
-    container_name: ${APP_NAME:-laravel}-db
+    container_name: ${CONTAINER_NAME:-laravel}-db
     restart: unless-stopped
     environment:
       - MARIADB_DATABASE=${DB_DATABASE:-laravel}
@@ -45,7 +45,7 @@ services:
 
   app:
     image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
-    container_name: ${APP_NAME:-laravel}-app
+    container_name: ${CONTAINER_NAME:-laravel}-app
     restart: unless-stopped
     environment:
       - APP_NAME=${APP_NAME:-laravel}
@@ -82,7 +82,7 @@ services:
 
   nginx:
     image: nginx:1.27-alpine
-    container_name: ${APP_NAME:-laravel}-nginx
+    container_name: ${CONTAINER_NAME:-laravel}-nginx
     restart: unless-stopped
     ports:
       - "${APP_PORT:-8082}:80"

@@ -6,7 +6,7 @@ if [ -f "../../.env" ]; then
     . ../../.env
 fi
 
-APP_NAME="${APP_NAME:-laravel}"
+CONTAINER_NAME="${CONTAINER_NAME:-laravel}"
 DB_DATABASE="${DB_DATABASE:-laravel}"
 DEPLOY_PATH="${DEPLOY_PATH:-$(pwd)}"
 BACKUP_DIR="${DEPLOY_PATH}/database-dump"
@@ -16,7 +16,7 @@ RETENTION_DAYS=7
 mkdir -p "$BACKUP_DIR"
 
 echo "Backing up database..."
-docker exec ${APP_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
+docker exec ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
   > "$BACKUP_DIR/db_${DATE}.sql"
 
 echo "Backing up storage..."
