@@ -1,6 +1,6 @@
 # SynoSail - Synology Laravel Docker Configuration
 
-SynoSail is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, or **Portainer**.
+SynoSail is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, **Arcane**, or **Portainer**.
 
 ## Why this package?
 
@@ -41,12 +41,12 @@ docker push your-registry/your-app:latest
 
 ---
 
-## Step 2: Preparing Dockhand / Dockge (On Synology)
+## Step 2: Preparing Dockhand / Dockge / Arcane (On Synology)
 
 Now that your image is on the registry, follow these strict steps on your Synology NAS to deploy it.
 
 1. **Create the Stack (Do not deploy yet!)**
-   Open Dockhand or Dockge, and create a new Stack/Project. 
+   Open Dockhand, Dockge, or Arcane, and create a new Stack/Project. 
    Copy the contents of your `docker-compose.yml` into the editor.
    Copy the contents of `.env.docker.example` into the `.env` editor, and fill out your variables (e.g., `APP_KEY`, database credentials, and your registry image url).
    **Save the stack, but do NOT start it.**
@@ -54,13 +54,13 @@ Now that your image is on the registry, follow these strict steps on your Synolo
 2. **Set Synology Folder Permissions (Crucial)**
    Because Synology is strict about file creation permissions for Docker volumes, you must manually create the `data` folder first:
    - Open **File Station** in Synology DSM.
-   - Navigate to the folder where your Dockhand/Dockge stack was saved (e.g., `/volume1/docker/dockge/stacks/my-app/`).
+   - Navigate to the folder where your stack was saved (e.g., `/volume1/docker/dockhand/stacks/my-app/`).
    - Create a new folder inside it named `data`.
    - Right-click the `data` folder -> **Properties** -> **Permission** tab.
    - Give **Everyone** `Read & Write` permissions, and ensure you check "Apply to this folder, sub-folders and files".
 
 3. **Deploy the Stack**
-   Go back to Dockhand/Dockge and click **Start/Deploy**. 
+   Go back to your Docker manager and click **Start/Deploy**. 
 
 ### What the Services Do:
 - **`init`**: This is a temporary container that runs before everything else. Because you mapped `./data`, it takes the Nginx configs, PHP configs, and compiled Vite/public assets from inside your built image, and copies them to your physical Synology `data` folder.
