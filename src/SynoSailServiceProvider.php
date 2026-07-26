@@ -1,10 +1,10 @@
 <?php
 
-namespace Smith89k\Synodocker;
+namespace Smith89k\SynoSail;
 
 use Illuminate\Support\ServiceProvider;
 
-class SynodockerServiceProvider extends ServiceProvider
+class SynoSailServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -22,7 +22,7 @@ class SynodockerServiceProvider extends ServiceProvider
                 __DIR__.'/../stubs/Dockerfile' => base_path('Dockerfile'),
                 __DIR__.'/../stubs/.env.docker.example' => base_path('.env.docker.example'),
                 __DIR__.'/../stubs/.dockerignore' => base_path('.dockerignore'),
-            ], 'synodocker-stubs');
+            ], 'syno-sail-stubs');
         }
     }
 

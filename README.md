@@ -1,6 +1,6 @@
-# Synodocker - Synology Laravel Docker Configuration
+# SynoSail - Synology Laravel Docker Configuration
 
-Synodocker is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, or **Portainer**.
+SynoSail is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, or **Portainer**.
 
 ## Why this package?
 
@@ -15,13 +15,13 @@ It includes an **`init` service** that automatically copies pre-compiled assets,
 First, install this package in your Laravel project via Composer:
 
 ```bash
-composer require --dev smith89k/synodocker
+composer require --dev smith89k/syno-sail
 ```
 
 Next, publish the Docker configuration files to your project root:
 
 ```bash
-php artisan synodocker:install
+php artisan syno-sail:install
 ```
 
 This command will copy the following into your project root:

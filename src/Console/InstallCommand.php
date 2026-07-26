@@ -1,6 +1,6 @@
 <?php
 
-namespace Smith89k\Synodocker\Console;
+namespace Smith89k\SynoSail\Console;
 
 use Illuminate\Console\Command;
 
@@ -11,25 +11,25 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'synodocker:install';
+    protected $signature = 'syno-sail:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Install the Synodocker configuration files for Docker deployment';
+    protected $description = 'Install the SynoSail configuration files for Docker deployment';
 
     /**
      * Execute the console command.
      */
     public function handle(): void
     {
-        $this->info('Installing Synodocker Configuration...');
+        $this->info('Installing SynoSail Configuration...');
 
-        $this->callSilent('vendor:publish', ['--tag' => 'synodocker-stubs', '--force' => true]);
+        $this->callSilent('vendor:publish', ['--tag' => 'syno-sail-stubs', '--force' => true]);
 
-        $this->info('Synodocker configuration installed successfully.');
+        $this->info('SynoSail configuration installed successfully.');
         $this->comment('Please check the docker-compose.yml file and configure it according to your needs.');
     }
 }

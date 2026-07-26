@@ -1,5 +1,5 @@
 {
-    "name": "smith89k/synodocker",
+    "name": "smith89k/syno-sail",
     "description": "Docker configuration package for Laravel projects on Synology or other Docker hosts.",
     "type": "library",
     "license": "MIT",
@@ -15,13 +15,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Smith89k\\Synodocker\\": "src/"
+            "Smith89k\\SynoSail\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Smith89k\\Synodocker\\SynodockerServiceProvider"
+                "Smith89k\\SynoSail\\SynoSailServiceProvider"
             ]
         }
     },
