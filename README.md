@@ -30,9 +30,13 @@ This command will copy the following into your project root:
 - `docker/` (Contains Nginx, PHP configs, and backup scripts)
 - `.env.docker.example` (Template for your production environment)
 - `.dockerignore`
+- `.github/` (Contains a ready-to-use GitHub Actions workflow to build and push to GHCR)
 
 **Build & Push Your Image**
-You should build your image (either locally or using GitHub Actions) and push it to a container registry (like GHCR or Docker Hub).
+Because we included a GitHub Actions workflow, your image will automatically build and push to GitHub Container Registry (GHCR) when you push to the `main` branch. 
+Make sure you add a `GHCR_PAT` repository secret containing a Personal Access Token with `write:packages` permissions.
+
+Alternatively, you can build locally:
 
 ```bash
 docker build -t your-registry/your-app:latest -f Dockerfile .

@@ -22,6 +22,7 @@ class SynoSailServiceProvider extends ServiceProvider
                 __DIR__.'/../stubs/Dockerfile' => base_path('Dockerfile'),
                 __DIR__.'/../stubs/.env.docker.example' => base_path('.env.docker.example'),
                 __DIR__.'/../stubs/.dockerignore' => base_path('.dockerignore'),
+                __DIR__.'/../stubs/.github' => base_path('.github'),
             ], 'syno-sail-stubs');
         }
     }
