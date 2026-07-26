@@ -70,7 +70,7 @@ Now that your image is on the registry, follow these strict steps on your Synolo
 - **`init`**: This is a temporary container that runs before everything else. Because you mapped `./data`, it takes the Nginx configs, PHP configs, and compiled Vite/public assets from inside your built image, and copies them to your physical Synology `data` folder.
 - **`db`**: MariaDB instance for your application.
 - **`app`**: The main PHP-FPM Laravel application.
-- **`nginx`**: The web server, exposing port `8082` (by default) to route traffic to your app.
+- **`nginx`**: The web server, exposing the port specified by `APP_PORT` (default `8082`) to route traffic to your app.
 
 ---
 
