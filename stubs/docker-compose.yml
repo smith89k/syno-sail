@@ -1,6 +1,6 @@
 services:
   init:
-    image: ${DOCKER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
     container_name: ${APP_NAME:-laravel}-init
     entrypoint: ["sh", "-c",
                  "mkdir -p /mnt/stack/public &&
@@ -44,7 +44,7 @@ services:
         max-file: "2"
 
   app:
-    image: ${DOCKER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
     container_name: ${APP_NAME:-laravel}-app
     restart: unless-stopped
     environment:
