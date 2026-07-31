@@ -3,13 +3,13 @@ services:
     image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
     container_name: ${CONTAINER_NAME:-laravel}-init
     entrypoint: ["sh", "-c",
-                 "mkdir -p /mnt/stack/public &&
+                 "rm -rf /mnt/stack/public &&
+                 mkdir -p /mnt/stack/public &&
                  mkdir -p /mnt/stack/storage &&
                  mkdir -p /mnt/stack/mariadb &&
                  mkdir -p /mnt/stack/php &&
                  mkdir -p /mnt/stack/nginx &&
                  mkdir -p /mnt/stack/scripts &&
-                 rm -rf /mnt/stack/public/build &&
                  cp -rf /var/www/public/. /mnt/stack/public/ &&
                  cp -rn /var/www/storage/. /mnt/stack/storage/ &&
                  cp -rf /var/www/docker/scripts/. /mnt/stack/scripts/ &&
