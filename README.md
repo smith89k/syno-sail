@@ -4,7 +4,7 @@ SynoSail is a drop-in package designed for Laravel developers who want to deploy
 
 ## Why this package?
 
-Deploying Laravel often involves building images and managing complex configurations. This package scaffolds a complete `docker-compose.yml` Stack designed *specifically* for Synology's strict folder permissions and GUI Docker managers.
+Deploying Laravel often involves building images and managing complex configurations. This package scaffolds a complete `docker-compose.yml` Stack designed *specifically* for Synology's strict folder permissions (tested on Synology NAS DS723+ running DSM 7.4) and GUI Docker managers.
 
 It includes an **`init` service** that automatically copies pre-compiled assets, Nginx configs, and PHP configs into persistent, permission-safe `data` folders on your Synology NAS upon startup.
 
@@ -45,12 +45,12 @@ docker push your-registry/your-app:latest
 
 ---
 
-## Step 2: Preparing Dockhand / Dockge / Arcane (On Synology)
+## Step 2: Preparing Dockhand (On Synology DS723+ / DSM 7.4)
 
 Now that your image is on the registry, follow these strict steps on your Synology NAS to deploy it.
 
 1. **Create the Stack (Do not deploy yet!)**
-   Open Dockhand, Dockge, or Arcane, and create a new Stack/Project. 
+   Open Dockhand (or Dockge/Arcane), and create a new Stack/Project. 
    Copy the contents of your `docker-compose.yml` into the editor.
    Copy the contents of `.env.docker.example` into the `.env` editor, and fill out your variables (e.g., `APP_KEY`, database credentials, and your registry image url).
    **Save the stack, but do NOT start it.**
@@ -58,7 +58,7 @@ Now that your image is on the registry, follow these strict steps on your Synolo
 2. **Set Synology Folder Permissions (Crucial)**
    Because Synology is strict about file creation permissions for Docker volumes, you must manually create the `data` folder first:
    - Open **File Station** in Synology DSM.
-   - Navigate to the folder where your stack was saved (e.g., `/volume1/docker/dockhand/stacks/my-app/`).
+   - Navigate to the folder where your stack was saved (e.g., `/volume1/docker/dockhand/stacks/<your-environment-or-user>/<your-project-name>/`).
    - Create a new folder inside it named `data`.
    - Right-click the `data` folder -> **Properties** -> **Permission** tab.
    - Give **Everyone** `Read & Write` permissions, and ensure you check "Apply to this folder, sub-folders and files".
@@ -85,7 +85,7 @@ To run this automatically every night:
 4. **Schedule**: Set it to run daily at 2:00 AM.
 5. **Task Settings**: In the "Run command" box, execute the script. Make sure to pass the `DEPLOY_PATH` of your stack:
 ```bash
-cd /volume1/docker/dockge/stacks/my-app
+cd /volume1/docker/dockhand/stacks/<your-environment-or-user>/<your-project-name>
 DEPLOY_PATH=$(pwd) sh ./docker/scripts/backup.sh >> ./backup.log 2>&1
 ```
 
