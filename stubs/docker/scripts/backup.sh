@@ -9,7 +9,7 @@ fi
 CONTAINER_NAME="${CONTAINER_NAME:-laravel}"
 DB_DATABASE="${DB_DATABASE:-laravel}"
 DEPLOY_PATH="${DEPLOY_PATH:-$(pwd)}"
-BACKUP_DIR="${DEPLOY_PATH}/database-dump"
+BACKUP_DIR="${DEPLOY_PATH}/backups"
 DATE=$(date +%Y%m%d_%H%M%S)
 RETENTION_DAYS=7
 
