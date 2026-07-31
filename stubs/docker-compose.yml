@@ -8,8 +8,10 @@ services:
                  mkdir -p /mnt/stack/mariadb &&
                  mkdir -p /mnt/stack/php &&
                  mkdir -p /mnt/stack/nginx &&
+                 mkdir -p /mnt/stack/scripts &&
                  cp -r /var/www/public/. /mnt/stack/public/ &&
                  cp -r /var/www/storage/. /mnt/stack/storage/ &&
+                 cp -r /var/www/docker/scripts/. /mnt/stack/scripts/ &&
                  cp /tmp/php.ini /mnt/stack/php/php.ini &&
                  cp /tmp/nginx.conf /mnt/stack/nginx/nginx.conf"]
     volumes:

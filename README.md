@@ -92,7 +92,7 @@ To run this automatically every night:
 5. **Task Settings**: In the "Run command" box, execute the script. Make sure to pass the `DEPLOY_PATH` of your stack:
 ```bash
 cd /volume1/docker/dockhand/stacks/<your-environment-or-user>/<your-project-name>
-DEPLOY_PATH=$(pwd) sh ./docker/scripts/backup.sh >> ./backup.log 2>&1
+DEPLOY_PATH=$(pwd) sh ./data/scripts/backup.sh >> ./backup.log 2>&1
 ```
 
 ## License
