@@ -20,7 +20,7 @@ docker exec ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
   > "$BACKUP_DIR/db_${DATE}.sql"
 
 echo "Backing up storage..."
-tar -czf "$BACKUP_DIR/storage_${DATE}.tar.gz" "${DEPLOY_PATH}/storage/"
+tar -czf "$BACKUP_DIR/storage_${DATE}.tar.gz" "${DEPLOY_PATH}/data/storage/"
 
 echo "Removing backups older than ${RETENTION_DAYS} days..."
 find "$BACKUP_DIR" -name "db_*.sql" -mtime +${RETENTION_DAYS} -delete
