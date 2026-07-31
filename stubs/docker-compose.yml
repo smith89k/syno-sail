@@ -9,11 +9,12 @@ services:
                  mkdir -p /mnt/stack/php &&
                  mkdir -p /mnt/stack/nginx &&
                  mkdir -p /mnt/stack/scripts &&
-                 cp -r /var/www/public/. /mnt/stack/public/ &&
-                 cp -r /var/www/storage/. /mnt/stack/storage/ &&
-                 cp -r /var/www/docker/scripts/. /mnt/stack/scripts/ &&
-                 cp /tmp/php.ini /mnt/stack/php/php.ini &&
-                 cp /tmp/nginx.conf /mnt/stack/nginx/nginx.conf"]
+                 rm -rf /mnt/stack/public/build &&
+                 cp -rf /var/www/public/. /mnt/stack/public/ &&
+                 cp -rn /var/www/storage/. /mnt/stack/storage/ &&
+                 cp -rf /var/www/docker/scripts/. /mnt/stack/scripts/ &&
+                 cp -f /tmp/php.ini /mnt/stack/php/php.ini &&
+                 cp -f /tmp/nginx.conf /mnt/stack/nginx/nginx.conf"]
     volumes:
       - ./data:/mnt/stack
     restart: "no"
