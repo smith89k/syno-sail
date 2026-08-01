@@ -25,7 +25,6 @@ services:
     restart: unless-stopped
     environment:
       - MARIADB_DATABASE=${DB_DATABASE:-laravel}
-      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1
       - MARIADB_AUTO_UPGRADE=1
     volumes:
