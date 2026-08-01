@@ -87,6 +87,8 @@ You may notice the `security_opt: ["seccomp=unconfined"]` flag used in the servi
 
 We've provided a `backup.sh` script (located in the published `docker/scripts/` folder) to safely dump your database and compress your storage folder, keeping a 7-day retention.
 
+**Note on Backup Location**: To prevent backups from being deleted if you remove or recreate your stack in Dockhand/Dockge, the script automatically saves backups outside the stack folder in `/volume1/docker/backups/<your-project-name>`. You can override this by defining `BACKUP_DIR` in your `.env` file.
+
 To run this automatically every night:
 1. Open **Control Panel** in Synology DSM.
 2. Go to **Task Scheduler** -> **Create** -> **Scheduled Task** -> **User-defined script**.
@@ -95,7 +97,7 @@ To run this automatically every night:
 5. **Task Settings**: In the "Run command" box, execute the script. Make sure to pass the `DEPLOY_PATH` of your stack:
 ```bash
 cd /volume1/docker/dockhand/stacks/<your-environment-or-user>/<your-project-name>
-DEPLOY_PATH=$(pwd) sh ./data/scripts/backup.sh >> ./backup.log 2>&1
+DEPLOY_PATH=$(pwd) sh ./data/scripts/backup.sh
 ```
 
 ## License
