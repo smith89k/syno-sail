@@ -78,6 +78,9 @@ Now that your image is on the registry, follow these strict steps on your Synolo
 - **`app`**: The main PHP-FPM Laravel application.
 - **`nginx`**: The web server, exposing the port specified by `APP_PORT` (default `8082`) to route traffic to your app.
 
+### Why `security_opt: seccomp=unconfined`?
+You may notice the `security_opt: ["seccomp=unconfined"]` flag used in the services. Synology's DSM often runs on older Linux kernels with an outdated default seccomp profile in Docker. Newer Docker images (like Alpine or Debian bases) use new system calls (such as `clone3`) that are blocked by Synology's default profile, causing containers to instantly crash or fail to start. Setting `seccomp=unconfined` bypasses this outdated filter and allows the containers to run normally on Synology NAS without breaking.
+
 ---
 
 ## Step 3: Setting up Backups via DSM Task Scheduler
