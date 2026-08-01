@@ -15,7 +15,7 @@ It includes an **`init` service** that automatically copies pre-compiled assets,
 First, install this package in your Laravel project via Composer:
 
 ```bash
-composer require --dev smith89k/syno-sail
+composer require --dev smith89k/syno-sail:dev-main
 ```
 
 Next, publish the Docker configuration files to your project root.
