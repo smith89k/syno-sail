@@ -13,7 +13,7 @@ services:
                  cp -rf /var/www/public/. /mnt/stack/public/ &&
                  cp -rn /var/www/storage/. /mnt/stack/storage/ &&
                  cp -rf /var/www/docker/scripts/. /mnt/stack/scripts/ &&
-                 cp -f /tmp/php.ini /mnt/stack/php/php.ini &&
+                 (test -f /mnt/stack/php/php.ini || cp -f /tmp/php.ini /mnt/stack/php/php.ini) &&
                  (test -f /mnt/stack/nginx/nginx.conf || cp -f /tmp/nginx.conf /mnt/stack/nginx/nginx.conf)"]
     volumes:
       - ./data:/mnt/stack
