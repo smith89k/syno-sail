@@ -25,8 +25,8 @@ try {
 done
 echo "Database is ready."
 
+php artisan storage:link
 php artisan migrate --force --no-interaction
-
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
