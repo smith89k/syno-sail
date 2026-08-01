@@ -26,7 +26,6 @@ done
 echo "Database is ready."
 
 php artisan migrate --force --no-interaction
-php artisan storage:link
 
 php artisan config:cache
 php artisan route:cache
