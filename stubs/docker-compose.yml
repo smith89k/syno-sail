@@ -1,6 +1,6 @@
 services:
   init:
-    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/<GITHUB_USER>/<APP_NAME>:latest}
     container_name: ${CONTAINER_NAME:-laravel}-init
     entrypoint: ["sh", "-c",
                  "mkdir -p /mnt/stack/public &&
@@ -27,6 +27,7 @@ services:
     restart: unless-stopped
     environment:
       - MARIADB_DATABASE=${DB_DATABASE:-laravel}
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD:-}
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1
       - MARIADB_AUTO_UPGRADE=1
     volumes:
@@ -51,7 +52,7 @@ services:
       - seccomp:unconfined
 
   app:
-    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/<GITHUB_USER>/<APP_NAME>:latest}
     container_name: ${CONTAINER_NAME:-laravel}-app
     restart: unless-stopped
     environment:

@@ -2,6 +2,8 @@
 
 SynoSail is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, **Arcane**, or **Portainer**.
 
+For Node.js projects, use its sister package, [SynoSail Node](https://github.com/smith89k/syno-sail-node).
+
 ## Why this package?
 
 Deploying Laravel often involves building images and managing complex configurations. This package scaffolds a complete `docker-compose.yml` Stack designed *specifically* for Synology's strict folder permissions (tested on Synology NAS DS723+ running DSM 7.4) and GUI Docker managers.
@@ -38,54 +40,70 @@ This command will copy the following into your project root:
 - `.dockerignore`
 - `.github/` (Contains a ready-to-use GitHub Actions workflow to build and push to GHCR)
 
-**Build & Push Your Image**
-Because we included a GitHub Actions workflow, your image will automatically build and push to GitHub Container Registry (GHCR) when you push to the `main` branch. 
-Make sure you add a `GHCR_PAT` repository secret containing a Personal Access Token with `write:packages` permissions.
+### Build & Push Your Image
 
-Alternatively, you can build locally:
+The included GitHub Actions workflow builds the image and pushes it to GitHub Container Registry (GHCR) when you push to `main`. It uses a `GHCR_PAT` repository secret (a Personal Access Token with `write:packages`) if you add one, otherwise the repository's own token.
+
+Alternatively, build locally:
 
 ```bash
-docker build -t your-registry/your-app:latest -f Dockerfile .
-docker push your-registry/your-app:latest
+docker build -t ghcr.io/<GITHUB_USER>/<APP_NAME>:latest -f Dockerfile .
+docker push ghcr.io/<GITHUB_USER>/<APP_NAME>:latest
 ```
 
 ---
 
-## Step 2: Preparing Dockhand (On Synology DS723+ / DSM 7.4)
+## Step 2: Preparing Dockhand (On Your Synology NAS)
 
 Now that your image is on the registry, follow these strict steps on your Synology NAS to deploy it.
 
 1. **Create the Stack (Do not deploy yet!)**
-   Open Dockhand (or Dockge/Arcane), and create a new Stack/Project. 
+   Open Dockhand (or Dockge/Arcane/Portainer) and create a new Stack.
    Copy the contents of your `docker-compose.yml` into the editor.
-   Copy the contents of `.env.docker.example` into the `.env` editor, and fill out your variables (e.g., `APP_KEY`, database credentials, and your registry image url).
+   Copy the contents of `.env.docker.example` into the `.env` editor and fill it in: `CONTAINER_NAME`, `CONTAINER_REGISTRY_IMAGE`, `APP_PORT`, `APP_URL`, `APP_KEY`, `DB_DATABASE`, `DB_PASSWORD`.
    **Save the stack, but do NOT start it.**
 
 2. **Set Synology Folder Permissions (Crucial)**
    Because Synology is strict about file creation permissions for Docker volumes, you must manually create the `data` folder first:
    - Open **File Station** in Synology DSM.
-   - Navigate to the folder where your stack was saved (e.g., `/volume1/docker/dockhand/stacks/<your-environment-or-user>/<your-project-name>/`).
+   - Navigate to the folder where your stack was saved (e.g., `/volume1/docker/dockhand/stacks/<ENVIRONMENT_OR_USER>/<PROJECT_NAME>/`).
    - Create a new folder inside it named `data`.
    - Right-click the `data` folder -> **Properties** -> **Permission** tab.
    - Give **Everyone** `Read & Write` permissions, and ensure you check "Apply to this folder, sub-folders and files".
 
 3. **Deploy the Stack**
-   Go back to your Docker manager and click **Start/Deploy**. 
+   Go back to your Docker manager and click **Start/Deploy**. Open `http://<NAS_IP>:<APP_PORT>`.
 
-### What the Services Do:
+### What the Services Do
+
 - **`init`**: This is a temporary container that runs before everything else. Because you mapped `./data`, it takes the Nginx configs, PHP configs, and compiled Vite/public assets from inside your built image, and copies them to your physical Synology `data` folder.
 - **`db`**: MariaDB instance for your application.
 - **`app`**: The main PHP-FPM Laravel application.
 - **`nginx`**: The web server, exposing the port specified by `APP_PORT` (default `8082`) to route traffic to your app.
 
 ### Why `security_opt: seccomp=unconfined`?
+
 You may notice the `security_opt: ["seccomp=unconfined"]` flag used in the services. Synology's DSM often runs on older Linux kernels with an outdated default seccomp profile in Docker. Newer Docker images (like Alpine or Debian bases) use new system calls (such as `clone3`) that are blocked by Synology's default profile, causing containers to instantly crash or fail to start. Setting `seccomp=unconfined` bypasses this outdated filter and allows the containers to run normally on Synology NAS without breaking.
+
+### Reaching the app from outside your home
+
+Forward `APP_PORT` on your router, or use DSM **Control Panel -> Login Portal -> Advanced -> Reverse Proxy**. If your app uses WebSockets (live updates, chat, games), open the rule's **Custom Header** tab and click **Create -> WebSocket**, or the page will load but the live connection will fail.
 
 ---
 
 ## Example Stack (copy & paste into Dockhand)
 
-A complete stack for a Laravel app called **my-shop**, served on port `8082` of a NAS at `192.168.1.20`. This `docker-compose.yml` is exactly what `php artisan syno-sail:install` writes; only the `.env` values are yours to change.
+A complete stack for a Laravel app, served on port `8082` of your NAS. The `docker-compose.yml` is exactly what `php artisan syno-sail:install` writes. Replace every `<UPPERCASE>` placeholder with your own value (see the table below); the `docker-compose.yml` needs no changes.
+
+| Placeholder | What to put there |
+|---|---|
+| `<GITHUB_USER>` | Your GitHub user name, in lowercase. |
+| `<APP_NAME>` | Your app's GitHub repository name, in lowercase. The workflow publishes the image as `ghcr.io/<GITHUB_USER>/<APP_NAME>`. |
+| `<NAS_IP>` | Your NAS's address on your network (DSM **Control Panel -> Network -> Network Interface**). |
+| `<DB_NAME>` | The database name, e.g. your app name with `_` instead of `-`. |
+| `<DB_PASSWORD>` | A strong password for the database's `root` user. |
+| `<APP_KEY>` | The output of `php artisan key:generate --show` on your computer. |
+| `<ENVIRONMENT_OR_USER>`, `<PROJECT_NAME>` | The folders your Docker manager saved the stack in. |
 
 <details>
 <summary><strong>docker-compose.yml</strong> (paste into the stack editor)</summary>
@@ -93,7 +111,7 @@ A complete stack for a Laravel app called **my-shop**, served on port `8082` of 
 ```yaml
 services:
   init:
-    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/<GITHUB_USER>/<APP_NAME>:latest}
     container_name: ${CONTAINER_NAME:-laravel}-init
     entrypoint: ["sh", "-c",
                  "mkdir -p /mnt/stack/public &&
@@ -120,6 +138,7 @@ services:
     restart: unless-stopped
     environment:
       - MARIADB_DATABASE=${DB_DATABASE:-laravel}
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD:-}
       - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1
       - MARIADB_AUTO_UPGRADE=1
     volumes:
@@ -144,7 +163,7 @@ services:
       - seccomp:unconfined
 
   app:
-    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/<GITHUB_USER>/<APP_NAME>:latest}
     container_name: ${CONTAINER_NAME:-laravel}-app
     restart: unless-stopped
     environment:
@@ -214,24 +233,24 @@ services:
 <summary><strong>.env</strong> (paste into the .env editor, then change the values)</summary>
 
 ```bash
-CONTAINER_NAME=my-shop
-CONTAINER_REGISTRY_IMAGE=ghcr.io/smith89k/my-shop:latest
+CONTAINER_NAME=<APP_NAME>
+CONTAINER_REGISTRY_IMAGE=ghcr.io/<GITHUB_USER>/<APP_NAME>:latest
 
-APP_NAME="My Shop"
+APP_NAME="<APP_NAME>"
 APP_ENV=production
 APP_DEBUG=false
 APP_PORT=8082
 # from `php artisan key:generate --show` on your computer
-APP_KEY=base64:CHANGE-ME
+APP_KEY=<APP_KEY>
 APP_TIMEZONE=Asia/Phnom_Penh
-APP_URL=http://192.168.1.20:8082
+APP_URL=http://<NAS_IP>:8082
 
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=my_shop
+DB_DATABASE=<DB_NAME>
 DB_USERNAME=root
-DB_PASSWORD=
+DB_PASSWORD=<DB_PASSWORD>
 
 CACHE_STORE=database
 SESSION_DRIVER=database
@@ -247,7 +266,7 @@ QUEUE_WORKERS=1
 
 We've provided a `backup.sh` script (located in the published `docker/scripts/` folder) to safely dump your database and compress your storage folder, keeping a 7-day retention.
 
-**Note on Backup Location**: To prevent backups from being deleted if you remove or recreate your stack in Dockhand/Dockge, the script automatically saves backups outside the stack folder in `/volume1/docker/backups/<your-project-name>`. You can override this by defining `BACKUP_DIR` in your `.env` file.
+**Note on Backup Location**: To prevent backups from being deleted if you remove or recreate your stack in Dockhand/Dockge, the script automatically saves backups outside the stack folder in `/volume1/docker/backups/<PROJECT_NAME>`. You can override this by defining `BACKUP_DIR` in your `.env` file.
 
 To run this automatically every night:
 1. Open **Control Panel** in Synology DSM.
@@ -256,9 +275,10 @@ To run this automatically every night:
 4. **Schedule**: Set it to run daily at 2:00 AM.
 5. **Task Settings**: In the "Run command" box, execute the script. Make sure to pass the `DEPLOY_PATH` of your stack:
 ```bash
-cd /volume1/docker/dockhand/stacks/<your-environment-or-user>/<your-project-name>
+cd /volume1/docker/dockhand/stacks/<ENVIRONMENT_OR_USER>/<PROJECT_NAME>
 DEPLOY_PATH=$(pwd) sh ./data/scripts/backup.sh
 ```
 
 ## License
+
 The MIT License (MIT).

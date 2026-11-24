@@ -26,8 +26,13 @@ mkdir -p "$BACKUP_DIR"
 exec >> "$BACKUP_DIR/backup.log" 2>&1
 
 echo "Backing up database..."
-docker exec ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
-  > "$BACKUP_DIR/db_${DATE}.sql"
+if [ -n "${DB_PASSWORD}" ]; then
+  docker exec -e MYSQL_PWD="${DB_PASSWORD}" ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
+    > "$BACKUP_DIR/db_${DATE}.sql"
+else
+  docker exec ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
+    > "$BACKUP_DIR/db_${DATE}.sql"
+fi
 
 echo "Backing up storage..."
 tar -czf "$BACKUP_DIR/storage_${DATE}.tar.gz" "${DEPLOY_PATH}/data/storage/"
