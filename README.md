@@ -83,6 +83,166 @@ You may notice the `security_opt: ["seccomp=unconfined"]` flag used in the servi
 
 ---
 
+## Example Stack (copy & paste into Dockhand)
+
+A complete stack for a Laravel app called **my-shop**, served on port `8082` of a NAS at `192.168.1.20`. This `docker-compose.yml` is exactly what `php artisan syno-sail:install` writes; only the `.env` values are yours to change.
+
+<details>
+<summary><strong>docker-compose.yml</strong> (paste into the stack editor)</summary>
+
+```yaml
+services:
+  init:
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    container_name: ${CONTAINER_NAME:-laravel}-init
+    entrypoint: ["sh", "-c",
+                 "mkdir -p /mnt/stack/public &&
+                 mkdir -p /mnt/stack/storage &&
+                 mkdir -p /mnt/stack/mariadb &&
+                 mkdir -p /mnt/stack/php &&
+                 mkdir -p /mnt/stack/nginx &&
+                 mkdir -p /mnt/stack/scripts &&
+                 rm -rf /mnt/stack/public/* &&
+                 cp -rf /var/www/public/. /mnt/stack/public/ &&
+                 cp -rn /var/www/storage/. /mnt/stack/storage/ &&
+                 cp -rf /var/www/docker/scripts/. /mnt/stack/scripts/ &&
+                 (test -f /mnt/stack/php/php.ini || cp -f /tmp/php.ini /mnt/stack/php/php.ini) &&
+                 (test -f /mnt/stack/nginx/nginx.conf || cp -f /tmp/nginx.conf /mnt/stack/nginx/nginx.conf)"]
+    volumes:
+      - ./data:/mnt/stack
+    restart: "no"
+    security_opt:
+      - seccomp:unconfined
+
+  db:
+    image: mariadb:11.4
+    container_name: ${CONTAINER_NAME:-laravel}-db
+    restart: unless-stopped
+    environment:
+      - MARIADB_DATABASE=${DB_DATABASE:-laravel}
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1
+      - MARIADB_AUTO_UPGRADE=1
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--innodb_initialized"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+    mem_limit: 768m
+    memswap_limit: 1280m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "2"
+    security_opt:
+      - seccomp:unconfined
+
+  app:
+    image: ${CONTAINER_REGISTRY_IMAGE:-ghcr.io/smith89k/laravel-app:latest}
+    container_name: ${CONTAINER_NAME:-laravel}-app
+    restart: unless-stopped
+    environment:
+      - APP_NAME=${APP_NAME:-laravel}
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_KEY=${APP_KEY}
+      - APP_TIMEZONE=${APP_TIMEZONE:-UTC}
+      - APP_URL=${APP_URL:-http://localhost}      
+      - DB_CONNECTION=${DB_CONNECTION:-mysql}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE:-laravel}
+      - DB_USERNAME=${DB_USERNAME:-root}
+      - DB_PASSWORD=${DB_PASSWORD:-}
+      - CACHE_STORE=${CACHE_STORE:-database}
+      - SESSION_DRIVER=${SESSION_DRIVER:-database}
+      - QUEUE_CONNECTION=${QUEUE_CONNECTION:-database}
+      - QUEUE_WORKERS=${QUEUE_WORKERS:-1}
+    volumes:
+      - ./data/storage:/var/www/storage
+      - ./data/php/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+    mem_limit: 384m
+    memswap_limit: 768m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "2"
+    security_opt:
+      - seccomp:unconfined
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: ${CONTAINER_NAME:-laravel}-nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8082}:80"
+    volumes:
+      - ./data/public:/var/www/public
+      - ./data/storage:/var/www/storage
+      - ./data/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      app:
+        condition: service_healthy
+    mem_limit: 128m
+    memswap_limit: 256m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "2"
+    security_opt:
+      - seccomp:unconfined
+```
+
+</details>
+
+<details>
+<summary><strong>.env</strong> (paste into the .env editor, then change the values)</summary>
+
+```bash
+CONTAINER_NAME=my-shop
+CONTAINER_REGISTRY_IMAGE=ghcr.io/smith89k/my-shop:latest
+
+APP_NAME="My Shop"
+APP_ENV=production
+APP_DEBUG=false
+APP_PORT=8082
+# from `php artisan key:generate --show` on your computer
+APP_KEY=base64:CHANGE-ME
+APP_TIMEZONE=Asia/Phnom_Penh
+APP_URL=http://192.168.1.20:8082
+
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=my_shop
+DB_USERNAME=root
+DB_PASSWORD=
+
+CACHE_STORE=database
+SESSION_DRIVER=database
+QUEUE_CONNECTION=database
+QUEUE_WORKERS=1
+```
+
+</details>
+
+---
+
 ## Step 3: Setting up Backups via DSM Task Scheduler
 
 We've provided a `backup.sh` script (located in the published `docker/scripts/` folder) to safely dump your database and compress your storage folder, keeping a 7-day retention.
