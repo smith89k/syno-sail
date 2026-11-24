@@ -93,7 +93,7 @@ Forward `APP_PORT` on your router, or use DSM **Control Panel -> Login Portal ->
 
 ## Example Stack (copy & paste into Dockhand)
 
-A complete stack for a Laravel app, served on port `8082` of your NAS. The `docker-compose.yml` is exactly what `php artisan syno-sail:install` writes. Replace every `<UPPERCASE>` placeholder with your own value (see the table below); the `docker-compose.yml` needs no changes.
+A complete stack for a Laravel app, served on port `8082` of your NAS. The `docker-compose.yml` and `.env.docker.example` below are exactly what `php artisan syno-sail:install` writes. Replace every `<UPPERCASE>` placeholder in the `.env` with your own value (see the table below); the `docker-compose.yml` needs no changes.
 
 | Placeholder | What to put there |
 |---|---|
@@ -230,19 +230,22 @@ services:
 </details>
 
 <details>
-<summary><strong>.env</strong> (paste into the .env editor, then change the values)</summary>
+<summary><strong>.env.docker.example</strong> (paste into the .env editor, then fill in the placeholders)
 
 ```bash
+# Replace every <UPPERCASE> placeholder (see the README's placeholder table).
 CONTAINER_NAME=<APP_NAME>
 CONTAINER_REGISTRY_IMAGE=ghcr.io/<GITHUB_USER>/<APP_NAME>:latest
 
 APP_NAME="<APP_NAME>"
 APP_ENV=production
 APP_DEBUG=false
+# the port on the NAS people open
 APP_PORT=8082
 # from `php artisan key:generate --show` on your computer
 APP_KEY=<APP_KEY>
 APP_TIMEZONE=Asia/Phnom_Penh
+# the address people use to reach the app
 APP_URL=http://<NAS_IP>:8082
 
 DB_CONNECTION=mysql
