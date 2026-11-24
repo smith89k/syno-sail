@@ -22,6 +22,8 @@ services:
       - seccomp:unconfined
 
   db:
+    # optional: runs only when COMPOSE_PROFILES in .env includes "db"
+    profiles: ["db"]
     image: mariadb:11.4
     container_name: ${CONTAINER_NAME:-laravel}-db
     restart: unless-stopped
@@ -57,6 +59,7 @@ services:
     restart: unless-stopped
     environment:
       - APP_NAME=${APP_NAME:-laravel}
+      - COMPOSE_PROFILES=${COMPOSE_PROFILES:-}
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}
       - APP_KEY=${APP_KEY}
@@ -80,6 +83,8 @@ services:
         condition: service_completed_successfully
       db:
         condition: service_healthy
+        # the app still starts when the database is turned off
+        required: false
     mem_limit: 384m
     memswap_limit: 768m
     logging:

@@ -25,13 +25,17 @@ mkdir -p "$BACKUP_DIR"
 # Redirect all output to the backup log
 exec >> "$BACKUP_DIR/backup.log" 2>&1
 
-echo "Backing up database..."
-if [ -n "${DB_PASSWORD}" ]; then
-  docker exec -e MYSQL_PWD="${DB_PASSWORD}" ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
-    > "$BACKUP_DIR/db_${DATE}.sql"
+DUMP=""
+if echo ",${COMPOSE_PROFILES}," | grep -q ",db,"; then
+  echo "Backing up database..."
+  DUMP="$BACKUP_DIR/db_${DATE}.sql"
+  if [ -n "${DB_PASSWORD}" ]; then
+    docker exec -e MYSQL_PWD="${DB_PASSWORD}" ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" > "$DUMP"
+  else
+    docker exec ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" > "$DUMP"
+  fi
 else
-  docker exec ${CONTAINER_NAME}-db sh -c "mariadb-dump -u root ${DB_DATABASE}" \
-    > "$BACKUP_DIR/db_${DATE}.sql"
+  echo "Database is turned off: skipping the database dump (an SQLite file is inside storage)."
 fi
 
 echo "Backing up storage..."
@@ -42,4 +46,4 @@ find "$BACKUP_DIR" -name "db_*.sql" -mtime +${RETENTION_DAYS} -delete
 find "$BACKUP_DIR" -name "storage_*.tar.gz" -mtime +${RETENTION_DAYS} -delete
 
 echo "Backup complete:"
-ls -lh "$BACKUP_DIR/db_${DATE}.sql" "$BACKUP_DIR/storage_${DATE}.tar.gz"
+ls -lh $DUMP "$BACKUP_DIR/storage_${DATE}.tar.gz"

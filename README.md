@@ -77,9 +77,28 @@ Now that your image is on the registry, follow these strict steps on your Synolo
 ### What the Services Do
 
 - **`init`**: This is a temporary container that runs before everything else. Because you mapped `./data`, it takes the Nginx configs, PHP configs, and compiled Vite/public assets from inside your built image, and copies them to your physical Synology `data` folder.
-- **`db`**: MariaDB instance for your application.
+- **`db`**: MariaDB instance for your application (optional, see below).
 - **`app`**: The main PHP-FPM Laravel application.
 - **`nginx`**: The web server, exposing the port specified by `APP_PORT` (default `8082`) to route traffic to your app.
+
+### Turning the database on or off
+
+Everything is set in `.env`; the `docker-compose.yml` never needs editing. The MariaDB database is optional and controlled by one line:
+
+```bash
+COMPOSE_PROFILES=db   # database on (default)
+COMPOSE_PROFILES=     # database off
+```
+
+With the database off, the `db` container is not created, the app starts without waiting for it, and the backup skips the database dump. This uses Docker Compose profiles and needs Docker Compose 2.20 or newer (check with `docker compose version` over SSH).
+
+For a Laravel app without MariaDB, switch it to SQLite in the same `.env`; the file is created for you and kept (and backed up) with the rest of `storage`:
+
+```bash
+COMPOSE_PROFILES=
+DB_CONNECTION=sqlite
+DB_DATABASE=/var/www/storage/database.sqlite
+```
 
 ### Why `security_opt: seccomp=unconfined`?
 
@@ -133,6 +152,8 @@ services:
       - seccomp:unconfined
 
   db:
+    # optional: runs only when COMPOSE_PROFILES in .env includes "db"
+    profiles: ["db"]
     image: mariadb:11.4
     container_name: ${CONTAINER_NAME:-laravel}-db
     restart: unless-stopped
@@ -168,6 +189,7 @@ services:
     restart: unless-stopped
     environment:
       - APP_NAME=${APP_NAME:-laravel}
+      - COMPOSE_PROFILES=${COMPOSE_PROFILES:-}
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}
       - APP_KEY=${APP_KEY}
@@ -191,6 +213,8 @@ services:
         condition: service_completed_successfully
       db:
         condition: service_healthy
+        # the app still starts when the database is turned off
+        required: false
     mem_limit: 384m
     memswap_limit: 768m
     logging:
@@ -236,6 +260,8 @@ services:
 # Replace every <UPPERCASE> placeholder (see the README's placeholder table).
 CONTAINER_NAME=<APP_NAME>
 CONTAINER_REGISTRY_IMAGE=ghcr.io/<GITHUB_USER>/<APP_NAME>:latest
+# which optional services run: "db" turns the MariaDB database on, empty turns it off
+COMPOSE_PROFILES=db
 
 APP_NAME="<APP_NAME>"
 APP_ENV=production
