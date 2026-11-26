@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="L logo">
+  <defs>
+    <linearGradient id="bgL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17263F"/><stop offset="1" stop-color="#070C16"/>
+    </linearGradient>
+    <linearGradient id="sailL" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#FF6A4D"/><stop offset="1" stop-color="#E0241A"/>
+    </linearGradient>
+    <linearGradient id="jibL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D9E2EE"/>
+    </linearGradient>
+    <linearGradient id="hullL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DCE5F0"/><stop offset="1" stop-color="#AFBDD0"/>
+    </linearGradient>
+    <linearGradient id="deckL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F4F7FB"/><stop offset="1" stop-color="#C9D4E3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bgL)"/><rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="6"/>
+
+  <!-- waves -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M128 398 C 168 380 196 416 244 400 C 292 384 324 416 384 396" stroke="#2E8FE0" stroke-width="15" opacity="0.95"/>
+    <path d="M170 436 C 206 422 232 450 272 438 C 306 428 324 444 352 436" stroke="#2E8FE0" stroke-width="12" opacity="0.5"/>
+  </g>
+
+  <!-- hull (shipping containers / drive bays) -->
+  <path d="M158 310 L362 310 L334 374 L186 374 Z" fill="url(#hullL)"/>
+  <g fill="#101B2E">
+    <rect x="196" y="324" width="20" height="38" rx="5"/>
+    <rect x="246" y="324" width="20" height="38" rx="5"/>
+    <rect x="296" y="324" width="20" height="38" rx="5"/>
+  </g>
+
+  <!-- deck -->
+  <rect x="146" y="286" width="228" height="20" rx="8" fill="url(#deckL)"/>
+
+  <!-- jib -->
+  <path d="M222 128 C 198 176 180 232 174 282 L222 282 Z" fill="url(#jibL)"/>
+
+  <!-- mast -->
+  <rect x="232" y="72" width="13" height="218" rx="6.5" fill="#E8EEF7"/>
+
+  <!-- mainsail -->
+  <path d="M256 80 C 320 120 364 192 372 282 L256 282 Z" fill="url(#sailL)"/>
+
+</svg>

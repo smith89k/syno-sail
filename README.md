@@ -1,4 +1,9 @@
-# SynoSail - Synology Laravel Docker Configuration
+<p align="center">
+  <a href="https://github.com/smith89k/syno-sail">
+    <img src="https://raw.githubusercontent.com/smith89k/syno-sail/main/.github/assets/banner.png"
+         alt="SynoSail — a production Docker stack for Laravel, made for your Synology NAS" width="920">
+  </a>
+</p>
 
 SynoSail is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, **Arcane**, or **Portainer**.
 
