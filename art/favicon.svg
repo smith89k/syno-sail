@@ -19,7 +19,8 @@
 
   <rect width="512" height="512" rx="112" fill="url(#bgL)"/><rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="6"/>
 
-<g transform="translate(256 262) scale(1.2) translate(-256 -256)">
+<g transform="translate(256 262) scale(1.18) translate(-256 -256)">
+
 
   <!-- hull (shipping containers / drive bays) -->
   <path d="M158 310 L362 310 L334 374 L186 374 Z" fill="url(#hullL)"/>

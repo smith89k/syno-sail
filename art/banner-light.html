@@ -1,84 +1,65 @@
 <!doctype html><html><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1280px;height:640px;overflow:hidden}
-body{
-  font-family:'Inter','Segoe UI',system-ui,sans-serif;
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;color:#14171C;
   background:
-    radial-gradient(760px 420px at 50% 112%,rgba(217,43,28,.10),transparent 70%),
+    radial-gradient(820px 460px at 50% 118%,rgba(217,43,28,.10),transparent 72%),
     radial-gradient(circle at 1px 1px,rgba(0,0,0,.07) 1px,transparent 0) 0 0/26px 26px,
-    #EFEEE9;
-  color:#14171C;
-  display:flex;flex-direction:column;align-items:center;
-  padding:46px 56px 44px;
-}}
+    #EFEEE9;}
+.page{width:100%;height:100%;padding:44px 56px 40px;display:flex;flex-direction:column}
+
 h1{font-size:50px;font-weight:800;letter-spacing:-.035em;line-height:1}
+h1 .a{color:#D92B1C}
 .sub{margin-top:12px;font-size:21px;font-weight:450;color:#5C636E;letter-spacing:-.012em}
-.stage{flex:1;display:flex;align-items:center;justify-content:center;gap:22px;width:100%;margin:4px 0 2px}
-
-.card{flex:1;min-width:0;background:#FBFAF8;border:1px solid rgba(0,0,0,.09);border-radius:18px;
-  box-shadow:0 18px 44px rgba(20,24,33,.10);overflow:hidden}
-.bar{display:flex;align-items:center;gap:10px;padding:13px 18px;background:rgba(0,0,0,.035);
-  border-bottom:1px solid rgba(0,0,0,.09)}
-.bar .t{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#6B7280;text-transform:uppercase}
-.dots{display:flex;gap:6px;margin-left:auto}
-.dots i{width:9px;height:9px;border-radius:50%;background:rgba(0,0,0,.14);display:block}
-.url{flex:1;background:#FFFFFF;border:1px solid rgba(0,0,0,.09);border-radius:999px;
-  padding:6px 14px;font-size:12.5px;color:#6B7280;font-weight:500}
-.body{padding:18px}
-
-.mono{font-family:'JetBrains Mono',Consolas,monospace;font-size:13.5px;line-height:1.95;
-  color:#2B303A;white-space:nowrap}
-.mono .pr{color:#D92B1C;font-weight:600}
-.mono .dim{color:#5C636E}
-
-.ok{display:inline-flex;align-items:center;gap:7px;background:#E4F2E8;color:#1E7A3F;
-  font-family:'JetBrains Mono',Consolas,monospace;font-size:12.5px;font-weight:500;
-  padding:5px 11px;border-radius:7px;margin:5px 6px 0 0}
-
-.row{display:flex;align-items:center;gap:10px;padding:9px 2px;font-size:14px;font-weight:500}
-.row + .row{border-top:1px solid rgba(0,0,0,.09)}
-.row .n{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;color:#2B303A}
-.row .s{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;
-  font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#1E7A3F;
-  background:#E4F2E8;padding:4px 10px;border-radius:999px}
-.led{width:7px;height:7px;border-radius:50%;background:#1E7A3F}
-
-.head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.head b{font-size:16px;font-weight:700;letter-spacing:-.01em}
-.head .s{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;
-  font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#1E7A3F;
-  background:#E4F2E8;padding:4px 10px;border-radius:999px}
-.foot{display:flex;gap:7px;margin-top:12px}
-.tagp{font-size:11.5px;font-weight:600;color:#6B7280;background:rgba(0,0,0,.035);
-  border:1px solid rgba(0,0,0,.09);padding:4px 10px;border-radius:999px}
-
-.bub{background:#F1EFEB;border-radius:14px;padding:11px 14px;font-size:13.5px;line-height:1.5;
-  color:#2B303A}
-.bub.me{background:#D92B1C;color:#fff;font-weight:500}
-.bub + .bub{margin-top:9px}
-.bub b{font-weight:700}
-.bub .li{color:#5C636E;font-size:12.5px}
-
-.mid{display:flex;flex-direction:column;align-items:center;gap:0;flex:0 0 auto}
-.mid img{width:96px;height:96px;display:block;filter:drop-shadow(0 14px 30px rgba(0,0,0,.28))}
-.arrow{flex:0 0 auto;display:flex;align-items:center}
-.arrow svg{display:block}
-
-.tag{margin-top:6px;font-size:25px;font-weight:700;letter-spacing:-.022em}
+.tag{font-size:25px;font-weight:700;letter-spacing:-.022em}
 .tag .a{color:#D92B1C}
-</style></head><body>
-<h1>SynoSail</h1>
-<div class="sub">Laravel on your Synology NAS, in one Docker stack</div>
-<div class="stage">
-  <div class="card"><div class="bar"><span class="t">Your Laravel app</span><span class="dots"><i></i><i></i></span></div><div class="body"><div class="mono"><span class="pr">$</span> composer require --dev \</div><div class="mono"><span class="dim">&nbsp;&nbsp;&nbsp;</span>smith89k/syno-sail</div><div class="mono"><span class="pr">$</span> php artisan syno-sail:install</div><div style="margin-top:4px"><span class="ok">&#10003; Dockerfile</span><span class="ok">&#10003; docker-compose.yml</span><span class="ok">&#10003; docker/</span><span class="ok">&#10003; .env.docker.example</span></div></div></div>
-  <div class="arrow"><svg width="54" height="14" viewBox="0 0 54 14"><path d="M2 7 H40" stroke="#D92B1C" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="1 9"/><path d="M38 1.5 L48 7 L38 12.5" fill="none" stroke="#D92B1C" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-  <div class="mid"><img src="logo.svg"></div>
-  <div class="arrow"><svg width="54" height="14" viewBox="0 0 54 14"><path d="M2 7 H40" stroke="#D92B1C" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="1 9"/><path d="M38 1.5 L48 7 L38 12.5" fill="none" stroke="#D92B1C" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-  <div class="card"><div class="bar"><span class="dots" style="margin:0"><i></i><i></i><i></i></span><span class="url">nas.local:8080</span></div><div class="body"><div class="head"><b>my-app</b><span class="s"><span class="led"></span>Running</span></div><div class="row"><span class="n">app</span><span class="s"><span class="led"></span>Up</span></div><div class="row"><span class="n">db</span><span class="s"><span class="led"></span>Up</span></div><div class="row"><span class="n">init</span><span class="s"><span class="led"></span>Done</span></div><div class="foot"><span class="tagp">Dockhand</span><span class="tagp">DSM 7.4</span><span class="tagp">No SSH</span></div></div></div>
-</div>
-<div class="tag">Build on GitHub. <span class="a">Paste the stack.</span> Press start.</div>
-</body></html>
+.mid{flex:1;display:flex;align-items:center;justify-content:center;gap:24px;min-height:0}
+
+.win{background:#FBFAF8;border:1px solid rgba(0,0,0,.09);border-radius:18px;
+  box-shadow:0 18px 44px rgba(20,24,33,.10);overflow:hidden;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:10px;padding:12px 18px;background:rgba(0,0,0,.035);
+  border-bottom:1px solid rgba(0,0,0,.09);flex:0 0 auto}
+.bar .t{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#6B7280;text-transform:uppercase}
+.dots{display:flex;gap:6px}
+.dots i{width:9px;height:9px;border-radius:50%;background:rgba(0,0,0,.14);display:block}
+.pill{background:#FFFFFF;border:1px solid rgba(0,0,0,.09);border-radius:999px;padding:6px 14px;
+  font-size:12.5px;color:#6B7280;font-weight:500}
+.pad{padding:18px;flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+.mono{font-family:'JetBrains Mono',Consolas,monospace;color:#2B303A}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;
+  color:#6B7280;background:rgba(0,0,0,.035);border:1px solid rgba(0,0,0,.09);padding:5px 11px;
+  border-radius:999px;white-space:nowrap}
+.chip.on{color:#fff;background:#D92B1C;border-color:transparent}
+.ok{display:inline-flex;align-items:center;gap:7px;background:#E4F2E8;color:#1E7A3F;
+  font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:8px}
+.warn{background:#FBE7D4;color:#AF560E}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:currentColor}
+.muted{color:#5C636E}
+.accent{color:#D92B1C}
+.row{display:flex;align-items:center;gap:11px}
+.grow{flex:1}
+.logo{filter:drop-shadow(0 14px 30px rgba(0,0,0,.30))}
+
+.route{position:absolute;left:0;right:0;top:54%;transform:translateY(-50%);z-index:0}
+.mid > .win,.mid > .ship{position:relative;z-index:1}
+.ship{display:flex;flex-direction:column;align-items:center}
+.port{flex:1;min-width:0;min-height:300px}
+.cmd{font-family:'JetBrains Mono',Consolas,monospace;font-size:13.5px;line-height:2;
+  color:#2B303A;white-space:nowrap}
+.cmd .p{color:#D92B1C;font-weight:700}
+.files{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.svc{display:flex;align-items:center;gap:10px;padding:9px 2px;font-size:14px}
+.svc + .svc{border-top:1px solid rgba(0,0,0,.09)}
+.svc .n{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;color:#2B303A}
+.svc .s{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11px;
+  font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1E7A3F;
+  background:#E4F2E8;padding:4px 10px;border-radius:999px}
+
+</style></head><body><div class="page">
+<div style="display:flex;flex-direction:column;text-align:center;align-items:center;flex:0 0 auto"><h1>SynoSail</h1><div class="sub">Laravel on your Synology NAS, in one Docker stack</div></div><div class="mid" style="position:relative;gap:26px"><svg class="route" width="1168" height="120" viewBox="0 0 1168 120" preserveAspectRatio="none"><path d="M0 72 C 150 30 300 110 460 70 C 620 30 760 108 920 66 C 1040 34 1120 60 1168 52" fill="none" stroke="#D92B1C" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 14" opacity=".75"/></svg><div class="win port"><div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="t">Your project</span><span class="grow"></span></div><div class="pad"><div class="cmd"><span class="p">$</span> composer require --dev \</div><div class="cmd">&nbsp;&nbsp;&nbsp;smith89k/syno-sail</div><div class="cmd"><span class="p">$</span> php artisan syno-sail:install</div><div class="files"><span class="ok">&#10003; Dockerfile</span><span class="ok">&#10003; docker-compose.yml</span><span class="ok">&#10003; docker/</span><span class="ok">&#10003; .env.docker.example</span></div></div></div><div class="ship"><img class="logo" src="logo.svg" width="100" height="100" style="flex:0 0 auto;"></div><div class="win port"><div class="bar"><span class="dots"><i></i><i></i><i></i></span><span class="pill grow">nas.local:8080</span><span class="grow"></span></div><div class="pad"><div class="row" style="margin-bottom:8px"><b style="font-size:16px;letter-spacing:-.01em">my-app</b><span class="grow"></span><span class="ok"><span class="dot"></span>Running</span></div><div class="svc"><span class="n">app</span><span class="s"><span class="dot"></span>Up</span></div><div class="svc"><span class="n">db</span><span class="s"><span class="dot"></span>Up</span></div><div class="svc"><span class="n">init</span><span class="s"><span class="dot"></span>Done</span></div><div class="files" style="margin-top:14px"><span class="chip">Dockhand</span><span class="chip">DSM 7.4</span><span class="chip">No SSH</span></div></div></div></div><div class="tag" style="text-align:center;margin-top:0px;flex:0 0 auto">Build on GitHub. <span class="a">Paste the stack.</span> Press start.</div>
+</div></body></html>

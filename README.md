@@ -6,16 +6,16 @@
 
 **Run your Laravel app on a Synology NAS: build the image on GitHub, paste one stack into your Docker manager, press start.**
 
-<a href="https://packagist.org/packages/smith89k/syno-sail"><img src="https://img.shields.io/packagist/v/smith89k/syno-sail" alt="Latest Version"></a>
-<a href="https://packagist.org/packages/smith89k/syno-sail"><img src="https://img.shields.io/packagist/dt/smith89k/syno-sail" alt="Total Downloads"></a>
-<a href="https://github.com/smith89k/syno-sail/blob/main/composer.json"><img src="https://img.shields.io/packagist/l/smith89k/syno-sail" alt="License"></a>
-<a href="https://github.com/smith89k/syno-sail#readme"><img src="https://img.shields.io/badge/Synology-DSM%207-0C4B8E" alt="Synology DSM 7"></a>
+<a href="https://packagist.org/packages/smith89k/syno-sail"><img src="https://img.shields.io/packagist/v/smith89k/syno-sail" alt="Latest version"></a>
+<a href="https://packagist.org/packages/smith89k/syno-sail"><img src="https://img.shields.io/packagist/dt/smith89k/syno-sail" alt="Downloads"></a>
+<a href="https://github.com/smith89k/syno-sail/blob/main/composer.json"><img src="https://img.shields.io/packagist/l/smith89k/syno-sail" alt="Licence"></a>
+<img src="https://img.shields.io/badge/Synology-DSM%207-0C4B8E" alt="Synology DSM 7">
 
 </div>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.png">
-  <img src="art/banner-light.png" alt="SynoSail: composer require and php artisan syno-sail:install produce a Dockerfile and docker-compose.yml, which run as a stack on a Synology NAS." width="100%">
+  <img src="art/banner-light.png" alt="SynoSail: two commands in a Laravel project produce a Dockerfile and docker-compose.yml, and the stack runs on a Synology NAS." width="100%">
 </picture>
 
 SynoSail is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, **Arcane**, or **Portainer**.
