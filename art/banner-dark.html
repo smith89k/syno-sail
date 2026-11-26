@@ -1,0 +1,84 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:640px;overflow:hidden}
+body{
+  font-family:'Inter','Segoe UI',system-ui,sans-serif;
+  background:
+    radial-gradient(760px 420px at 50% 112%,rgba(224,36,26,.16),transparent 70%),
+    radial-gradient(circle at 1px 1px,rgba(255,255,255,.07) 1px,transparent 0) 0 0/26px 26px,
+    #0D1117;
+  color:#EEF3FA;
+  display:flex;flex-direction:column;align-items:center;
+  padding:46px 56px 44px;
+}}
+h1{font-size:50px;font-weight:800;letter-spacing:-.035em;line-height:1}
+.sub{margin-top:12px;font-size:21px;font-weight:450;color:#919AA7;letter-spacing:-.012em}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;gap:22px;width:100%;margin:4px 0 2px}
+
+.card{flex:1;min-width:0;background:#161B22;border:1px solid rgba(255,255,255,.10);border-radius:18px;
+  box-shadow:0 18px 44px rgba(0,0,0,.55);overflow:hidden}
+.bar{display:flex;align-items:center;gap:10px;padding:13px 18px;background:rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.10)}
+.bar .t{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:#8B94A3;text-transform:uppercase}
+.dots{display:flex;gap:6px;margin-left:auto}
+.dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);display:block}
+.url{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:999px;
+  padding:6px 14px;font-size:12.5px;color:#8B94A3;font-weight:500}
+.body{padding:18px}
+
+.mono{font-family:'JetBrains Mono',Consolas,monospace;font-size:13.5px;line-height:1.95;
+  color:#D7DFEA;white-space:nowrap}
+.mono .pr{color:#FF6A4D;font-weight:600}
+.mono .dim{color:#919AA7}
+
+.ok{display:inline-flex;align-items:center;gap:7px;background:rgba(63,185,80,.16);color:#4FC463;
+  font-family:'JetBrains Mono',Consolas,monospace;font-size:12.5px;font-weight:500;
+  padding:5px 11px;border-radius:7px;margin:5px 6px 0 0}
+
+.row{display:flex;align-items:center;gap:10px;padding:9px 2px;font-size:14px;font-weight:500}
+.row + .row{border-top:1px solid rgba(255,255,255,.10)}
+.row .n{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;color:#D7DFEA}
+.row .s{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;
+  font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#4FC463;
+  background:rgba(63,185,80,.16);padding:4px 10px;border-radius:999px}
+.led{width:7px;height:7px;border-radius:50%;background:#4FC463}
+
+.head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.head b{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.head .s{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;
+  font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#4FC463;
+  background:rgba(63,185,80,.16);padding:4px 10px;border-radius:999px}
+.foot{display:flex;gap:7px;margin-top:12px}
+.tagp{font-size:11.5px;font-weight:600;color:#8B94A3;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.10);padding:4px 10px;border-radius:999px}
+
+.bub{background:rgba(255,255,255,.055);border-radius:14px;padding:11px 14px;font-size:13.5px;line-height:1.5;
+  color:#D7DFEA}
+.bub.me{background:#FF6A4D;color:#fff;font-weight:500}
+.bub + .bub{margin-top:9px}
+.bub b{font-weight:700}
+.bub .li{color:#919AA7;font-size:12.5px}
+
+.mid{display:flex;flex-direction:column;align-items:center;gap:0;flex:0 0 auto}
+.mid img{width:96px;height:96px;display:block;filter:drop-shadow(0 14px 30px rgba(0,0,0,.28))}
+.arrow{flex:0 0 auto;display:flex;align-items:center}
+.arrow svg{display:block}
+
+.tag{margin-top:6px;font-size:25px;font-weight:700;letter-spacing:-.022em}
+.tag .a{color:#FF6A4D}
+</style></head><body>
+<h1>SynoSail</h1>
+<div class="sub">Laravel on your Synology NAS, in one Docker stack</div>
+<div class="stage">
+  <div class="card"><div class="bar"><span class="t">Your Laravel app</span><span class="dots"><i></i><i></i></span></div><div class="body"><div class="mono"><span class="pr">$</span> composer require --dev \</div><div class="mono"><span class="dim">&nbsp;&nbsp;&nbsp;</span>smith89k/syno-sail</div><div class="mono"><span class="pr">$</span> php artisan syno-sail:install</div><div style="margin-top:4px"><span class="ok">&#10003; Dockerfile</span><span class="ok">&#10003; docker-compose.yml</span><span class="ok">&#10003; docker/</span><span class="ok">&#10003; .env.docker.example</span></div></div></div>
+  <div class="arrow"><svg width="54" height="14" viewBox="0 0 54 14"><path d="M2 7 H40" stroke="#FF6A4D" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="1 9"/><path d="M38 1.5 L48 7 L38 12.5" fill="none" stroke="#FF6A4D" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="mid"><img src="logo.svg"></div>
+  <div class="arrow"><svg width="54" height="14" viewBox="0 0 54 14"><path d="M2 7 H40" stroke="#FF6A4D" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="1 9"/><path d="M38 1.5 L48 7 L38 12.5" fill="none" stroke="#FF6A4D" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="card"><div class="bar"><span class="dots" style="margin:0"><i></i><i></i><i></i></span><span class="url">nas.local:8080</span></div><div class="body"><div class="head"><b>my-app</b><span class="s"><span class="led"></span>Running</span></div><div class="row"><span class="n">app</span><span class="s"><span class="led"></span>Up</span></div><div class="row"><span class="n">db</span><span class="s"><span class="led"></span>Up</span></div><div class="row"><span class="n">init</span><span class="s"><span class="led"></span>Done</span></div><div class="foot"><span class="tagp">Dockhand</span><span class="tagp">DSM 7.4</span><span class="tagp">No SSH</span></div></div></div>
+</div>
+<div class="tag">Build on GitHub. <span class="a">Paste the stack.</span> Press start.</div>
+</body></html>

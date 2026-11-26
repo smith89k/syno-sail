@@ -1,9 +1,22 @@
-<p align="center">
-  <a href="https://github.com/smith89k/syno-sail">
-    <img src="https://raw.githubusercontent.com/smith89k/syno-sail/main/.github/assets/banner.png"
-         alt="SynoSail — a production Docker stack for Laravel, made for your Synology NAS" width="920">
-  </a>
-</p>
+<div align="center">
+
+<img src="art/logo.svg" width="112" height="112" alt="SynoSail logo">
+
+# SynoSail
+
+**Run your Laravel app on a Synology NAS: build the image on GitHub, paste one stack into your Docker manager, press start.**
+
+<a href="https://packagist.org/packages/smith89k/syno-sail"><img src="https://img.shields.io/packagist/v/smith89k/syno-sail" alt="Latest Version"></a>
+<a href="https://packagist.org/packages/smith89k/syno-sail"><img src="https://img.shields.io/packagist/dt/smith89k/syno-sail" alt="Total Downloads"></a>
+<a href="https://github.com/smith89k/syno-sail/blob/main/composer.json"><img src="https://img.shields.io/packagist/l/smith89k/syno-sail" alt="License"></a>
+<a href="https://github.com/smith89k/syno-sail#readme"><img src="https://img.shields.io/badge/Synology-DSM%207-0C4B8E" alt="Synology DSM 7"></a>
+
+</div>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.png">
+  <img src="art/banner-light.png" alt="SynoSail: composer require and php artisan syno-sail:install produce a Dockerfile and docker-compose.yml, which run as a stack on a Synology NAS." width="100%">
+</picture>
 
 SynoSail is a drop-in package designed for Laravel developers who want to deploy their applications on a **Synology NAS** using third-party Docker GUI managers like **Dockhand**, **Dockge**, **Arcane**, or **Portainer**.
 
